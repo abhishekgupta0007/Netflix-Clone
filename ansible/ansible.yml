@@ -5,6 +5,7 @@
   vars:
     repo_url: "https://github.com/abhishekgupta0007/Netflix-Clone.git"
     app_path: "/home/abhishekgupta/Netflix_Clone/"
+    git_branch: "trivy"
 
   tasks:
     - name: Install required packages
@@ -27,7 +28,8 @@
       git:
         repo: "{{ repo_url }}"
         dest: "{{ app_path }}"
-        version: main
+        version: "{{ git_branch }}"
+        update: yes
         force: yes
 
     - name: Change ownership of the cloned directory
