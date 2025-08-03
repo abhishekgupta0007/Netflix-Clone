@@ -4,7 +4,7 @@
   become: true
   vars:
     repo_url: "https://github.com/abhishekgupta0007/Netflix-Clone.git"
-    app_path: "/home/abhishekgupta/Netflix-Clone/"
+    app_path: "/home/abhishekgupta/Netflix_Clone/"
 
   tasks:
     - name: Install required packages
