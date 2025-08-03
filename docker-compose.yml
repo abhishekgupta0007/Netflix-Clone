@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile  # Capital 'D' is conventional (ensure it matches the actual filename)
+      dockerfile: Dockerfile
     container_name: netflix_clone_app
     image: netflix_clone_app:latest
     ports:
