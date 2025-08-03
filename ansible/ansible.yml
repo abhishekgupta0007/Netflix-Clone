@@ -5,7 +5,7 @@
   vars:
     repo_url: "https://github.com/abhishekgupta0007/Netflix-Clone.git"
     app_path: "/home/abhishekgupta/Netflix_Clone/"
-    git_branch: "Trivy"
+    git_branch: "Main"
 
   tasks:
     - name: Install common packages and update cache
