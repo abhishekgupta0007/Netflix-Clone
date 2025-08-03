@@ -1,5 +1,5 @@
 ---
-- name: Install Docker, Docker Compose, Git and run Docker Compose application
+- name: Install Docker, Docker Compose, Git, trivy and create docker image and scan with trivy and than run with docker-compose application
   hosts: all
   become: true
   vars:
@@ -13,6 +13,7 @@
           - docker.io
           - docker-compose
           - git
+          - trivy
         state: present
         update_cache: yes
 
@@ -35,6 +36,22 @@
         owner: abhishekgupta
         group: abhishekgupta
         recurse: yes
+
+    - name: Build Docker image
+      command: docker build -t netflix-clone .
+      args:
+        chdir: "{{ app_path }}"
+
+    - name: Scan Docker image with Trivy
+      command: trivy image --exit-code 1 --severity HIGH,CRITICAL netflix-clone:latest
+      args:
+        chdir: "{{ app_path }}"
+      register: trivy_scan
+
+    - name: Fail if Trivy scan finds vulnerabilities
+      fail:
+        msg: "Trivy scan found vulnerabilities: {{ trivy_scan.stdout }}"
+      when: trivy_scan.rc != 0
 
     - name: Run Docker Compose
       command: docker-compose up -d
