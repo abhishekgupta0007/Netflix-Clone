@@ -63,12 +63,18 @@
         chdir: "{{ app_path }}"
       register: trivy_scan
 
+    - name: store Trivy scan results
+      copy:
+        content: "{{ trivy_scan.stdout }}"
+        dest: "{{ app_path }}/trivy_scan_results.txt"
+        mode: '0644' 
+
     - name: Fail if Trivy scan finds vulnerabilities
       fail:
         msg: "Trivy scan found vulnerabilities: {{ trivy_scan.stdout }}"
       when: trivy_scan.rc != 0
 
     - name: Run Docker Compose
-      command: docker-compose up -d
+      command: docker-compose up -d --remove-orphans
       args:
         chdir: "{{ app_path }}"
