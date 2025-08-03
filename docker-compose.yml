@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Capital 'D' is conventional (ensure it matches the actual filename)
+    container_name: netflix_clone_app
+    image: netflix_clone_app:latest
+    ports:
+      - "8000:80"
+    environment:
+      - ENV=development
+    volumes:
+      - .:/app        # Optional; only if you want to reflect local changes inside the container
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

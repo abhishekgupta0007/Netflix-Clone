@@ -1,0 +1,42 @@
+---
+- name: Install Docker, Docker Compose, Git and run Docker Compose application
+  hosts: all
+  become: true
+  vars:
+    repo_url: "https://github.com/abhishekgupta0007/Netflix-Clone.git"
+    app_path: "/home/abhishekgupta/Netflix-Clone/"
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+          - git
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Clone the repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ app_path }}"
+        version: main
+        force: yes
+
+    - name: Change ownership of the cloned directory
+      file:
+        path: "{{ app_path }}"
+        owner: abhishekgupta
+        group: abhishekgupta
+        recurse: yes
+
+    - name: Run Docker Compose
+      command: docker-compose up -d
+      args:
+        chdir: "{{ app_path }}"
