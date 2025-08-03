@@ -1,16 +1,15 @@
+# This is a Docker Compose file to deploy docker image.
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: netflix_clone_app
-    image: netflix_clone_app:latest
+  netflix-clone:
+    image: netflix-clone:latest
+    container_name: netflix-clone
     ports:
       - "8000:80"
     environment:
       - ENV=development
     volumes:
-      - .:/app        # Optional; only if you want to reflect local changes inside the container
+      - .:/app
+    restart: unless-stopped
     networks:
       - app-network
 

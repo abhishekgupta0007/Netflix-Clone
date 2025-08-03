@@ -1,0 +1,4 @@
+{
+    "ansible.validation.lint.enabled": false,
+    "ansible.ansible.useFullyQualifiedCollectionNames": true
+}
